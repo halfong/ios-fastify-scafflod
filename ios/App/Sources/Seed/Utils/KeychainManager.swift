@@ -5,7 +5,7 @@ final class KeychainManager {
     static let shared = KeychainManager()
     private init() {}
     
-    private let service = "cc.holli.Vocano"
+    private let service = Bundle.main.bundleIdentifier ?? "__BUNDLE_ID__"
     
     // MARK: - Save
     

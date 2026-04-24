@@ -1,5 +1,5 @@
 //
-//  TimeInterval+Vocano.swift
+//  TimeInterval+Vocap.swift
 //  Vocano
 //
 //  Created by GPT-5.1 Codex on 2025/11/21.
