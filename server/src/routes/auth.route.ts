@@ -2,6 +2,7 @@ import type { FastifyInstance } from 'fastify';
 import { ZodTypeProvider } from 'fastify-type-provider-zod';
 import { z } from 'zod';
 import $db from '../utils/db.service';
+import $authService from '../services/auth.service';
 
 const userSchema = z.object({
   id: z.string(),
@@ -18,6 +19,43 @@ const tokenResponseSchema = z.object({
 
 export default async function (fastify: FastifyInstance) {
   const f = fastify.withTypeProvider<ZodTypeProvider>();
+
+  // Sign in with email + password
+  f.post('/auth/login', {
+    schema: {
+      tags: ['Auth'],
+      description: 'Sign in with email and password',
+      body: z.object({ email: z.string().email(), password: z.string() }),
+      response: { 200: tokenResponseSchema },
+    },
+  }, async (req, reply) => {
+    const { email, password } = req.body;
+    const user = await $authService.verifyEmailPassword(email, password);
+    if (!user) throw '401:Invalid credentials';
+    const token = fastify.jwt.sign({ id: user.id, email: user.email, role: user.role, name: user.name ?? undefined });
+    const expiry = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
+    return { token, expiry, user: { id: user.id, email: user.email, name: user.name, role: user.role } };
+  });
+
+  // Sign in with Apple identity token (Sign in with Apple)
+  f.post('/auth/apple', {
+    schema: {
+      tags: ['Auth'],
+      description: 'Sign in with Apple identity token',
+      body: z.object({
+        identityToken: z.string(),
+        email: z.string().email().optional(),
+        name: z.string().optional(),
+      }),
+      response: { 200: tokenResponseSchema },
+    },
+  }, async (req) => {
+    const { identityToken, email, name } = req.body;
+    const user = await $authService.signInWithApple({ identityToken, email, name });
+    const token = fastify.jwt.sign({ id: user.id, email: user.email, role: user.role, name: user.name ?? undefined });
+    const expiry = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
+    return { token, expiry, user: { id: user.id, email: user.email, name: user.name, role: user.role } };
+  });
 
   // Get the currently authenticated user
   f.get('/auth', {
