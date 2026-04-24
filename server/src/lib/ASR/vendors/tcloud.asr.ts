@@ -1,3 +1,4 @@
+// @ts-ignore – optional peer dep; install tencentcloud-sdk-nodejs-asr to use
 import * as tencentcloud from "tencentcloud-sdk-nodejs-asr";
 import type { AsrTask, AsrData, AsrVendor } from '../types';
 

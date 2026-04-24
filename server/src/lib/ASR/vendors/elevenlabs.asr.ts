@@ -1,4 +1,5 @@
 import type { AsrTask, AsrData, AsrVendor } from '../types';
+// @ts-ignore – optional peer dep; install @elevenlabs/elevenlabs-js to use
 import { ElevenLabsClient } from "@elevenlabs/elevenlabs-js";
 
 /**

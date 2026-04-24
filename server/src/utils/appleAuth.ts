@@ -25,7 +25,7 @@ async function getApplePublicKeys(): Promise<ApplePublicKey[]> {
   }
 
   const response = await fetch('https://appleid.apple.com/auth/keys');
-  const data: ApplePublicKeysResponse = await response.json();
+  const data = await response.json() as ApplePublicKeysResponse;
   applePublicKeys = data.keys;
   lastFetch = now;
   return applePublicKeys;
