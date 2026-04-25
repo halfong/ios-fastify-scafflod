@@ -11,6 +11,8 @@ generator client {
 }
 
 datasource db {
+  // "mysql" is the correct provider for both MySQL and MariaDB.
+  // The MariaDB driver adapter (PrismaMariaDb) is configured at runtime in db.service.ts.
   provider = "mysql"
   url      = env("DATABASE_URL")
 }

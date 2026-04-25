@@ -141,7 +141,7 @@ npm run test       # Vitest unit tests
 
 ## 🗄️ Database (Prisma + MariaDB/MySQL)
 
-The scaffold uses **Prisma 6** with the MariaDB driver adapter.
+The scaffold uses **Prisma 6** (`^6.8.2`) with the MariaDB driver adapter (`@prisma/adapter-mariadb`).
 
 ### Default schema models
 
