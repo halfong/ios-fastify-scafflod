@@ -7,7 +7,8 @@ A **GitHub Template repository** for building a full-stack mobile application wi
 | Layer | Technology |
 |-------|-----------|
 | iOS client | SwiftUI, Swift 5.9+, iOS 17+ |
-| Server | Node.js 18+, Fastify 4, TypeScript 5 |
+| Server | Node.js 18+, Fastify 5, TypeScript 5 |
+| ORM | Prisma 6 (MariaDB / MySQL) |
 | API contract | OpenAPI 3.1 (YAML) |
 | Scaffold | Node.js ESM script (`scripts/scaffold.mjs`) |
 
@@ -31,6 +32,8 @@ A **GitHub Template repository** for building a full-stack mobile application wi
 │   │   └── Info.plist
 │   └── Package.swift
 ├── server/
+│   ├── prisma/
+│   │   └── schema.prisma           # Prisma schema (User, OAuthAccount, KiviRecord)
 │   ├── src/
 │   │   ├── index.ts                # Fastify entry
 │   │   ├── config/env.ts           # Environment config
@@ -132,6 +135,63 @@ npm start          # run compiled dist/index.js
 npm run typecheck  # TypeScript type check (no emit)
 npm run lint       # ESLint
 npm run test       # Vitest unit tests
+```
+
+---
+
+## 🗄️ Database (Prisma + MariaDB/MySQL)
+
+The scaffold uses **Prisma 6** with the MariaDB driver adapter.
+
+### Default schema models
+
+| Model | Table | Purpose |
+|-------|-------|---------|
+| `User` | `users` | Auth — email/password accounts |
+| `OAuthAccount` | `oauth_accounts` | Auth — Sign in with Apple / OAuth links |
+| `KiviRecord` | `kivi_records` | Generic key/value store (see `Kivi.ts`) |
+
+### Setup
+
+```bash
+cd server
+
+# 1. Copy env and set DATABASE_URL
+cp .env.example .env
+
+# 2. Install dependencies (runs `prisma generate` automatically via postinstall)
+npm install
+
+# 3a. Push schema to database (dev — no migration files)
+npm run db:push
+
+# 3b. OR create + apply a named migration (recommended for teams)
+npm run db:migrate
+
+# 4. Seed the default admin user (reads ADMIN_EMAIL / ADMIN_PASSWORD from .env)
+npm run db:seed
+```
+
+### Prisma commands
+
+| Command | Description |
+|---------|-------------|
+| `npm run db:generate` | Regenerate Prisma Client after schema changes |
+| `npm run db:push` | Push schema to database without a migration file (dev) |
+| `npm run db:migrate` | Create and apply a named migration (dev) |
+| `npm run db:migrate:deploy` | Apply pending migrations (CI / production) |
+| `npm run db:seed` | Create the default admin user |
+
+### Kivi key/value store
+
+`src/utils/Kivi.ts` provides a generic key/value utility backed by any Prisma model that satisfies `KiviModelDelegate`.  `KiviRecord` is the default table included in the schema.  To add a domain-specific table (e.g. audit logs, receipts), duplicate the `KiviRecord` model in `schema.prisma`, run `db:migrate`, and pass the new delegate to the `Kivi` constructor:
+
+```ts
+import Kivi from '../utils/Kivi'
+import $db from '../utils/db.service'
+
+const auditKivi = new Kivi($db.kiviAudit)
+await auditKivi.set('login', { ip: req.ip }, { uid: user.id })
 ```
 
 ---

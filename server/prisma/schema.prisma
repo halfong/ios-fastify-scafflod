@@ -1,0 +1,68 @@
+// Prisma schema for the iOS + Fastify scaffold.
+//
+// After editing this file run:
+//   npm run db:generate   – regenerate the Prisma Client
+//   npm run db:push       – push schema to the database (dev, no migration file)
+//   npm run db:migrate    – create + apply a named migration (dev)
+//   npm run db:migrate:deploy – apply pending migrations (CI / production)
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+// ─── Auth ────────────────────────────────────────────────────────────────────
+
+model User {
+  id           String         @id @default(cuid())
+  email        String         @unique
+  passwordHash String
+  name         String?
+  role         String         @default("user")
+  active       Boolean        @default(true)
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @updatedAt
+
+  oauthAccounts OAuthAccount[]
+
+  @@map("users")
+}
+
+/// OAuth / Sign-in-with-Apple linked accounts.
+/// The compound unique index maps to Prisma's generated accessor:
+///   $db.oAuthAccount.findUnique({ where: { provider_providerId: { provider, providerId } } })
+model OAuthAccount {
+  id         String   @id @default(cuid())
+  provider   String
+  providerId String
+  userId     String
+  user       User     @relation(fields: [userId], references: [id])
+  createdAt  DateTime @default(now())
+
+  @@unique([provider, providerId])
+  @@map("oauth_accounts")
+}
+
+// ─── Kivi (key/value store) ───────────────────────────────────────────────────
+//
+// The Kivi utility (src/utils/Kivi.ts) accepts any Prisma model delegate that
+// satisfies KiviModelDelegate.  Use this model as-is for general-purpose
+// key/value storage, or duplicate it (e.g. KiviAudit, KiviReceipt) and pass
+// the matching $db delegate to the Kivi constructor for domain-specific tables.
+
+model KiviRecord {
+  id         Int       @id @default(autoincrement())
+  key        String
+  value      Json
+  uid        String?
+  date       DateTime?
+  created_at DateTime  @default(now())
+
+  @@index([key])
+  @@index([key, uid])
+  @@map("kivi_records")
+}
