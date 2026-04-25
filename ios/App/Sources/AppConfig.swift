@@ -1,10 +1,10 @@
 import Foundation
 
 /// Central configuration for the app.
-/// After scaffolding, `apiBaseURL` will be set from __API_BASE_URL__.
+/// After scaffolding, `apiBaseURL` will be set from http://localhost:3000.
 enum AppConfig {
     /// Base URL of the API server. Change this value or set it via xcconfig.
-    static let apiBaseURL: String = "__API_BASE_URL__"
+    static let apiBaseURL: String = "http://localhost:3000"
 
     /// Alias used by ApiService (Seed).
     static var backendURL: String { apiBaseURL }

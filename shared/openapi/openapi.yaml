@@ -1,11 +1,11 @@
 openapi: "3.1.0"
 info:
-  title: __APP_NAME__ API
-  description: REST API for __APP_NAME__ — served by __SERVER_NAME__
+  title: MyApp API
+  description: REST API for MyApp — served by my-api-server
   version: "1.0.0"
 
 servers:
-  - url: __API_BASE_URL__
+  - url: http://localhost:3000
     description: Development server
 
 paths:

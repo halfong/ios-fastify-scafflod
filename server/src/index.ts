@@ -1,8 +1,13 @@
 import Fastify, { FastifyInstance } from 'fastify';
 import autoload from '@fastify/autoload';
 import { join } from 'path';
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
 import $db from './utils/db.service';
 import dotenv from 'dotenv';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 dotenv.config();
 process.env.TZ = 'UTC';
@@ -46,6 +51,4 @@ const start = async () => {
   }
 };
 
-if (require.main === module) {
-  start();
-}
+start();

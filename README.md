@@ -84,11 +84,11 @@ The script will prompt you for:
 
 | Prompt | Token replaced | Example |
 |--------|---------------|---------|
-| iOS app display name | `__APP_NAME__` | `MyApp` |
-| iOS bundle identifier | `__BUNDLE_ID__` | `com.example.myapp` |
-| Server npm package name | `__SERVER_NAME__` | `my-api-server` |
-| Server port | `__SERVER_PORT__` | `3000` |
-| API base URL (iOS client) | `__API_BASE_URL__` | `http://localhost:3000` |
+| iOS app display name | `MyApp` | `MyApp` |
+| iOS bundle identifier | `com.example.myapp` | `com.example.myapp` |
+| Server npm package name | `my-api-server` | `my-api-server` |
+| Server port | `3000` | `3000` |
+| API base URL (iOS client) | `http://localhost:3000` | `http://localhost:3000` |
 
 Tokens are replaced across all text files in `ios/`, `server/`, `shared/`, and root config files. A `.scaffolded` marker is written to prevent accidental re-runs.
 
@@ -116,7 +116,7 @@ npm run dev
 npm run server:dev
 ```
 
-The server runs on `http://localhost:__SERVER_PORT__` by default.
+The server runs on `http://localhost:3000` by default.
 
 Available endpoints:
 

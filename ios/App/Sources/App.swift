@@ -1,7 +1,7 @@
 import SwiftUI
 
 @main
-struct __APP_NAME__App: App {
+struct MyAppApp: App {
 
     @StateObject private var credential = ApiCredential.shared
     @StateObject private var api = ApiService.shared

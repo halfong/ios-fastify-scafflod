@@ -1,5 +1,5 @@
 import XCTest
-@testable import __APP_NAME__
+@testable import MyApp
 
 final class AppConfigTests: XCTestCase {
     func testAPIBaseURLIsValid() throws {
