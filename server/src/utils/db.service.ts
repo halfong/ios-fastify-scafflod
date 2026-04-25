@@ -1,6 +1,4 @@
-// When using this file standalone, replace '@db/client' with the path to your generated Prisma client.
-// In the Vocano monorepo, @db/client is mapped to src/prisma/client/client via tsconfig paths.
-import { PrismaClient } from '@db/client';
+import { PrismaClient } from '@prisma/client';
 import { PrismaMariaDb } from '@prisma/adapter-mariadb';
 
 import dotenv from 'dotenv';
