@@ -1,0 +1,104 @@
+openapi: "3.1.0"
+info:
+  title: __APP_NAME__ API
+  description: REST API for __APP_NAME__ — served by __SERVER_NAME__
+  version: "1.0.0"
+
+servers:
+  - url: __API_BASE_URL__
+    description: Development server
+
+paths:
+  /health:
+    get:
+      summary: Health check
+      operationId: getHealth
+      tags: [System]
+      responses:
+        "200":
+          description: Server is healthy
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HealthResponse"
+
+  /api/v1/examples:
+    get:
+      summary: List examples
+      operationId: listExamples
+      tags: [Examples]
+      responses:
+        "200":
+          description: List of example items
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ExampleListResponse"
+
+  /api/v1/examples/{id}:
+    get:
+      summary: Get a single example
+      operationId: getExample
+      tags: [Examples]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: A single example item
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ExampleItem"
+        "404":
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+components:
+  schemas:
+    HealthResponse:
+      type: object
+      required: [status, timestamp]
+      properties:
+        status:
+          type: string
+          enum: [ok, error]
+        timestamp:
+          type: string
+          format: date-time
+
+    ExampleItem:
+      type: object
+      required: [id, title, createdAt]
+      properties:
+        id:
+          type: string
+        title:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+
+    ExampleListResponse:
+      type: object
+      required: [data, total]
+      properties:
+        data:
+          type: array
+          items:
+            $ref: "#/components/schemas/ExampleItem"
+        total:
+          type: integer
+
+    ErrorResponse:
+      type: object
+      required: [error]
+      properties:
+        error:
+          type: string

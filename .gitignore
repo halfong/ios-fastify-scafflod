@@ -1,0 +1,55 @@
+# Node
+node_modules/
+dist/
+build/
+*.log
+.env
+.env.local
+.env.*.local
+
+# Scaffold marker
+.scaffolded
+
+# Xcode
+## User settings
+xcuserdata/
+*.xcuserstate
+*.xcscmblueprint
+
+## Build artifacts
+DerivedData/
+*.ipa
+*.dSYM.zip
+*.dSYM
+
+## Xcode environment settings
+*.xccheckout
+*.moved-aside
+*.pbxuser
+!default.pbxuser
+*.mode1v3
+!default.mode1v3
+*.mode2v3
+!default.mode2v3
+*.perspectivev3
+!default.perspectivev3
+
+## Carthage
+Carthage/Build/
+
+## Swift Package Manager
+.build/
+.swiftpm/
+
+## CocoaPods
+Pods/
+*.xcworkspace
+!default.xcworkspace
+
+## Tuist
+Derived/
+ProjectDescriptionHelpers/
+
+# macOS
+.DS_Store
+*.swp
