@@ -1,5 +1,0 @@
-#include "Base.xcconfig"
-
-// Debug-specific settings
-SWIFT_OPTIMIZATION_LEVEL = -Onone
-DEBUG_INFORMATION_FORMAT = dwarf
