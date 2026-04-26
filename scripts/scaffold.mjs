@@ -168,13 +168,34 @@ writeFileSync(
 console.log(`
 ✅  Scaffolding complete!
 
-Next steps:
+── Server setup ────────────────────────────────────────────
   1. Install server dependencies:
        cd server && npm install
   2. Copy the server env file:
        cp server/.env.example server/.env
   3. Start the dev server:
        npm run server:dev
-  4. Open the iOS project in Xcode:
-       open ios/App/App.xcodeproj
+
+── iOS project setup (one-time, manual) ────────────────────
+  1. Open Xcode → File → New → Project → iOS → App
+       Product Name : ${appName}
+       Bundle ID    : ${bundleId}
+       Interface    : SwiftUI
+       Language     : Swift
+
+  2. ⚠️  Delete the files Xcode auto-generated (Move to Trash):
+         • [${appName}]App.swift   ← conflicts with our App.swift
+         • ContentView.swift       ← conflicts with our ContentView.swift
+
+  3. Drag  ios/App/Sources/  into the Xcode project navigator:
+         ✓  Create groups
+         □  Copy items if needed  (leave unchecked)
+
+  4. Signing & Capabilities → set your Development Team
+
+  5. Optional — merge extra keys from ios/App/Info.plist into
+     your project's Info.plist (NSAllowsLocalNetworking, etc.)
+
+  6. ⌘B to build, ⌘R to run
+────────────────────────────────────────────────────────────
 `);

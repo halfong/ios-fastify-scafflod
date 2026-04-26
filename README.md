@@ -17,20 +17,22 @@ A **GitHub Template repository** for building a full-stack mobile application wi
 ```
 .
 ├── ios/
-│   ├── App/
-│   │   ├── Sources/          # Swift source files
-│   │   │   ├── App.swift           # @main entry
-│   │   │   ├── AppConfig.swift     # API base URL config
-│   │   │   ├── APIClient.swift     # HTTP client
-│   │   │   ├── ContentView.swift   # Root view
-│   │   │   └── ExampleViewModel.swift
-│   │   ├── Tests/
-│   │   ├── Configuration/
-│   │   │   ├── Base.xcconfig       # PRODUCT_NAME, PRODUCT_BUNDLE_IDENTIFIER
-│   │   │   ├── Debug.xcconfig
-│   │   │   └── Release.xcconfig
-│   │   └── Info.plist
-│   └── Package.swift
+│   └── App/
+│       ├── Sources/          # Swift source files — drag into your Xcode project
+│       │   ├── App.swift           # @main entry point
+│       │   ├── AppConfig.swift     # API base URL config
+│       │   ├── APIClient.swift     # HTTP client
+│       │   ├── ContentView.swift   # Root view
+│       │   ├── ExampleViewModel.swift
+│       │   ├── Seed/               # Reusable UI components & services
+│       │   ├── Services/           # App-specific services
+│       │   └── Views/              # App screens
+│       ├── Tests/
+│       ├── Configuration/
+│       │   ├── Base.xcconfig       # PRODUCT_NAME, PRODUCT_BUNDLE_IDENTIFIER
+│       │   ├── Debug.xcconfig
+│       │   └── Release.xcconfig
+│       └── Info.plist              # Extra plist keys (NSAllowsLocalNetworking, etc.)
 ├── server/
 │   ├── prisma/
 │   │   └── schema.prisma           # Prisma schema (User, OAuthAccount, KiviRecord)
@@ -196,41 +198,77 @@ await auditKivi.set('login', { ip: req.ip }, { uid: user.id })
 
 ---
 
-## 📱 Running the iOS app
+## 📱 iOS project setup
 
 ### Prerequisites
 
 - Xcode 15+ (iOS 17 SDK)
 - macOS Ventura or later
 
+> The iOS code lives in `ios/App/Sources/` as plain Swift source files — no `.xcodeproj` is committed.  
+> You create the Xcode project yourself (one-time) and drag the sources in. This keeps the template clean and avoids merge conflicts in generated project files.
+
 ### Steps
 
-1. Make sure the server is running (see above)
-2. Open the project in Xcode:
-   ```bash
-   open ios/App/App.xcodeproj
-   ```
-   Or if using Swift Package Manager directly:
-   ```bash
-   open ios/Package.swift
-   ```
-3. Select a simulator or device and press **⌘R** to run
+**1. Run the scaffold script first** (if you haven't already)
 
-### Configuration
-
-The iOS app reads its API base URL from `ios/App/Sources/AppConfig.swift`:
-
-```swift
-enum AppConfig {
-    static let apiBaseURL: String = "http://localhost:3000"
-}
+```bash
+npm run scaffold
 ```
 
-After scaffolding, this will already contain the URL you provided. Update it manually if the server address changes.
+This replaces template tokens (`__APP_NAME__`, `__BUNDLE_ID__`, `__API_BASE_URL__`) inside the Swift source files.
 
-Build settings (display name, bundle ID) are configured via xcconfig:
+**2. Create a new Xcode project**
 
-- `ios/App/Configuration/Base.xcconfig`
+Xcode → **File → New → Project → iOS → App**
+
+| Field | Value |
+|---|---|
+| Product Name | *(the app name you entered in scaffold)* |
+| Bundle Identifier | *(the bundle ID you entered in scaffold)* |
+| Interface | SwiftUI |
+| Language | Swift |
+
+Save the project wherever you like (inside or outside the repo).
+
+**3. Delete the Xcode-generated entry point files**
+
+> ⚠️ Xcode auto-generates `[AppName]App.swift` and `ContentView.swift`. These conflict with the template's own `App.swift` and `ContentView.swift`. Delete them:
+
+In the Xcode project navigator, select both files → right-click → **Delete → Move to Trash**.
+
+**4. Drag in the Sources folder**
+
+Drag the **`ios/App/Sources/`** folder from Finder into the Xcode project navigator.
+
+In the dialog that appears:
+- ✅ **Create groups**
+- ☐ Copy items if needed *(leave unchecked — keep files in place)*
+
+**5. Set your Development Team**
+
+Xcode → target → **Signing & Capabilities** → set your Apple Developer Team.
+
+**6. (Optional) Apply xcconfig build settings**
+
+The `ios/App/Configuration/` folder contains ready-made xcconfig files that set `PRODUCT_NAME` and `PRODUCT_BUNDLE_IDENTIFIER` from the scaffold tokens. To use them:
+
+Xcode → project → **Info** tab → expand each configuration → assign `Debug.xcconfig` / `Release.xcconfig` to your app target.
+
+**7. (Optional) Merge Info.plist keys**
+
+`ios/App/Info.plist` contains extra keys your app needs (local network permission, orientation settings, etc.). Copy any relevant keys into your Xcode project's `Info.plist`.
+
+**8. Build and run**
+
+```
+⌘B  — build
+⌘R  — run on simulator or device
+```
+
+### API base URL
+
+The iOS app reads its API base URL from `ios/App/Sources/AppConfig.swift`. After scaffolding it already contains the URL you provided. Update it manually if the server address changes.
 
 ---
 
