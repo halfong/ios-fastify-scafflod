@@ -21,4 +21,12 @@ extension ApiService {
         )
     }
 
+    @discardableResult
+    func getAuditState(cacheMode: Int = 0) async throws -> ApiSubscriptionReceiptResponse {
+        return try await query(
+            "/subscription/audit?cacheMode=\(cacheMode)",
+            accept: ApiSubscriptionReceiptResponse.self
+        )
+    }
+
 }

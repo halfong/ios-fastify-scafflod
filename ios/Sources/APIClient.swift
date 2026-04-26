@@ -2,7 +2,7 @@ import Foundation
 
 // MARK: - API Models
 
-struct ExampleItem: Identifiable, Codable {
+struct ExampleItem: Identifiable, Codable, Hashable {
     let id: String
     let title: String
     let createdAt: String

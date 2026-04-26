@@ -30,14 +30,17 @@ struct StyledTabPicker<T: RawRepresentable & Hashable & CaseIterable>: View wher
                         selection = option
                     }
                 }) {
+                    let isSelected = selection == option
+                    let weight: LatoWeight = isSelected ? .bold : .regular
+                    let textColor: Color = isSelected ? .bg0 : .text1
                     Text(option.rawValue)
-                        .lato(.t5, weight: selection == option ? .bold : .regular)
-                        .foregroundColor(selection == option ? .bg0 : .text1)
+                        .lato(.t5, weight: weight)
+                        .foregroundColor(textColor)
                         .frame(maxWidth: .infinity)
                         .padding(.vertical, 8)
                         .background(
                             RoundedRectangle(cornerRadius: 8)
-                                .fill(selection == option ? Color.accent : Color.clear)
+                                .fill(isSelected ? Color.accent : Color.clear)
                         )
                 }
                 .buttonStyle(.plain)
