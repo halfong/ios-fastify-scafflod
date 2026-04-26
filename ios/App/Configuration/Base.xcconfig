@@ -1,8 +1,8 @@
 // Base xcconfig for all configurations.
-// Scaffold replaces MyApp and com.example.myapp tokens.
+// Scaffold replaces __APP_NAME__ and __BUNDLE_ID__ tokens.
 
-PRODUCT_NAME = MyApp
-PRODUCT_BUNDLE_IDENTIFIER = com.example.myapp
+PRODUCT_NAME = __APP_NAME__
+PRODUCT_BUNDLE_IDENTIFIER = __BUNDLE_ID__
 MARKETING_VERSION = 1.0.0
 CURRENT_PROJECT_VERSION = 1
 

@@ -26,7 +26,7 @@ struct AuthView: View {
                     .foregroundStyle(.tint)
                     .padding(4)
 
-                Text("MyApp")
+                Text("__APP_NAME__")
                     .font(.system(size: 40, weight: .bold, design: .rounded))
                     .tracking(-1)
 

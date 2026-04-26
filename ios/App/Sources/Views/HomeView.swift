@@ -25,7 +25,7 @@ struct HomeView: View {
                     itemListView
                 }
             }
-            .navigationTitle("MyApp")
+            .navigationTitle("__APP_NAME__")
             .toolbar { toolbarContent }
             .alert("Sign Out", isPresented: $showLogoutAlert) {
                 Button("Sign Out", role: .destructive) { api.logout() }

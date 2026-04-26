@@ -1,7 +1,7 @@
 {
-  "name": "my-api-server",
+  "name": "__SERVER_NAME__",
   "version": "0.1.0",
-  "description": "Fastify API server for MyApp",
+  "description": "Fastify API server for __APP_NAME__",
   "private": true,
   "type": "module",
   "main": "dist/index.js",

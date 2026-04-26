@@ -2,22 +2,22 @@
 import PackageDescription
 
 let package = Package(
-    name: "MyApp",
+    name: "__APP_NAME__",
     platforms: [
         .iOS(.v17),
     ],
     products: [
-        .library(name: "MyApp", targets: ["MyApp"]),
+        .library(name: "__APP_NAME__", targets: ["__APP_NAME__"]),
     ],
     dependencies: [],
     targets: [
         .target(
-            name: "MyApp",
+            name: "__APP_NAME__",
             path: "App/Sources"
         ),
         .testTarget(
-            name: "MyAppTests",
-            dependencies: ["MyApp"],
+            name: "__APP_NAME__Tests",
+            dependencies: ["__APP_NAME__"],
             path: "App/Tests"
         ),
     ]

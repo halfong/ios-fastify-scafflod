@@ -11,7 +11,7 @@ private struct OnboardSlide {
 private let slides: [OnboardSlide] = [
     OnboardSlide(
         icon: "sparkles",
-        title: "Welcome to\nMyApp",
+        title: "Welcome to\n__APP_NAME__",
         body: "Your next great app starts here.\nLet's get you set up."
     ),
     OnboardSlide(

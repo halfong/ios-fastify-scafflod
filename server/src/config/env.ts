@@ -12,8 +12,8 @@ export interface AppEnv {
 function loadEnv(): AppEnv {
   return {
     // Falls back to 3000 if PORT env var is unset and the template token hasn't
-    // been replaced yet (Number("3000") === NaN).
-    PORT: Number(process.env["PORT"] ?? "3000") || 3000,
+    // been replaced yet (Number("__SERVER_PORT__") === NaN).
+    PORT: Number(process.env["PORT"] ?? "__SERVER_PORT__") || 3000,
     NODE_ENV: process.env["NODE_ENV"] ?? "development",
     LOG_LEVEL: process.env["LOG_LEVEL"] ?? "info",
   };
